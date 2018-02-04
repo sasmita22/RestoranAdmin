@@ -133,6 +133,9 @@
 				    }
 				});
 
+				window.location.replace("<?= base_url() ?>/index.php/kasir/cetak");
+				
+
  	 		});
 
 

@@ -13,4 +13,10 @@
 		public function kasir_page(){
 			$this->load->view('kasir/kasir');
 		}
+
+		public function cetak(){
+			
+			
+			$this->load->view('cetak');
+		}
 	}
