@@ -1,0 +1,53 @@
+.navbar-fixed {
+	height:115px;
+}
+
+.side-nav {
+	top: 66px;
+	height: 90vh;
+	width: 230px;
+	overflow-y: auto;
+}
+
+.ownwrapper {
+	margin-left: 230px;
+}
+
+.own2wrapper {
+	margin-left: 0px;
+}
+
+.footer {
+	bottom: 0;
+}
+
+.modal {
+	max-height: 100%;
+	width: 50%;
+}
+
+.modal2 {
+	max-height: 48% !important;
+	width: 30% !important;
+}
+
+.modalhapus {
+	max-height: 37% !important;
+	width: 40% !important;
+}
+
+.btn-small {
+    height: 24px !important;
+    line-height: 24px !important;
+    padding: 0 0.5rem !important;
+    width: 55px !important;
+    font-size: 12px;
+}
+
+.breadcrumb:before {
+	color: #009688;
+}
+
+.breadcrumb, .breadcrumb:last-child {
+   color: #009688;
+}
