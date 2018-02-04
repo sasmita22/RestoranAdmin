@@ -153,7 +153,7 @@
 			
 			<!-- Form Tambah Makanan -->
 			<div class="row">
-				<form action="#" class="col s12">
+				<form class="col s12" id="formtambahmakanan">
 					<!-- Input ID Makanan dan Nama Makanan -->
 					<div class="row">
 					    <div class="input-field col s5">
@@ -182,12 +182,8 @@
 					<!-- Input Harga Beli dan Harga Jual -->
 					<div class="row">
 					    <div class="input-field col s5">
-					        <input id="hrgbeli" type="text" class="validate">
-					        <label for="hrgbeli">Harga Beli</label>
-					    </div>
-					    <div class="input-field col s5 offset-s2">
-					        <input id="hrgjual" type="text" class="validate">
-					        <label for="hrgjual">Harga Jual</label>
+					        <input id="harga" type="text" class="validate">
+					        <label for="harga">Harga</label>
 					    </div>
 					</div>
 
@@ -201,25 +197,13 @@
 
 					<!-- Input Bahan -->
 					<div class="row">
-					    <div class="input-field col s10">
-					        <input id="bahan" type="text" class="validate">
-					        <label for="bahan">Masukan Bahan</label>
-						</div>
-						<!-- Button menambahkan dan mengurangi bahan -->
-					    <div class="input-field col s1">
-							<button class="btn-floating btn waves-effect waves-light teal"><i class="material-icons">add</i></button>
-						</div>		
-					</div> <!--//End Input Bahan -->
-
-					<!-- Input Bahan2 dst -->
-					<div class="row">
-					    <div class="input-field col s10">
-					        <input id="bahan2" type="text" class="validate">
-					        <label for="bahan2">Masukan Bahan</label>
-						</div>
+						<div id="formbahan"></div>
 						<!-- Button untuk mengurangi bahan -->
 					    <div class="input-field col s1">
-							<button class="btn-floating btn waves-effect waves-light red"><i class="material-icons">remove</i></button>
+							<button class="btn-floating btn waves-effect waves-light teal" id="tambahbahan"><i class="material-icons">add</i></button>
+						</div>		
+					    <div class="input-field col s1">
+							<button class="btn-floating btn waves-effect waves-light red "><i class="material-icons">remove</i></button>
 						</div>							
 					</div> <!--//End Input Bahan2 dst -->
 
@@ -241,10 +225,10 @@
 			</div> <!-- End Modal Content -->
 				<div class="modal-footer">
 				  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				  <a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Simpan</a>
+				  <a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="simpanTambah">Simpan</a>
 				</div>
 			</div>
-	    </div> <!-- endmodalstructure -->
+	     <!-- endmodalstructure -->
 
 
 	<!-- Navbar -->
@@ -326,7 +310,7 @@
 			<br>  
 			<!-- Button tambahkan makanan -->
 			<div class="center">
-				<button class="waves-effect waves-default btn modal-trigger white teal-text helo">Tambah Makanan</button>
+				<button class="waves-effect waves-default btn modal-trigger white teal-text helo" id="btnModalTambah">Tambah Makanan</button>
 			</div>
 
 	</div><br><br><br>
@@ -469,7 +453,7 @@
 			              url : '/ci-restserver/index.php/makanan/'+id,
 			              dataType : 'json',
 			              success : function(response){
-			                  $('#pesanModal').modal('close');
+			                  $('#modalhapusmkn').modal('close');
 
 			                  if (response.status == 'success' ){
 			                  	alert("data berhasil dihapus");
@@ -487,8 +471,56 @@
   			
   			});
 
-  		});
+  			$('#btnModalTambah').click(function(){
+  				$('#modaltambahmkn').modal('open');	
 
+  				$('#simpanTambah').unbind().click(function(){
+  					var data = {
+  						"id_makanan" : $('#formtambahmakanan #idmkn').val(),
+  						"nama" : $('#formtambahmakanan #namamkn').val(),
+  						"jenis" : $('#formtambahmakanan #jenismkn').val(),
+  						"tag" : $('#formtambahmakanan #tag').val(),
+  						"deskripsi" : $('#formtambahmakanan #deskripsi').val(),
+  						"harga" : $('#formtambahmakanan #harga').val(),
+  						"path" : '',
+  						"bahan" : ''//$('#formbahan').serialize()		
+  					}
+  					alert(data);
+  						$.ajax({
+			              type : 'ajax',
+			              method : 'post',
+			              data : data,
+			              url : '/ci-restserver/index.php/makanan',
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modaltambahmkn').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("Makanan berhasil ditambah");
+			                  } else {
+			                  	alert("Makanan gagal ditambah");
+			                  }
+			                  showMakanan();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  				});
+  			});
+
+  			var j = 0;
+  			$('#tambahbahan').click(function(){
+  				j++;
+  				$('#formbahan').append('<div class="input-field col s10">'+
+					        '<input id="bahan" type="text" class="validate">'+
+					        '<label for="bahan">Masukan Bahan '+j+'</label>'+
+					        '<input id="qty" type="text" class="validate">'+
+					        '<label for="bahan">Masukan Qty '+j+'</label>'+
+						'</div>');
+  			});
+  		});
 
 	</script>
 
