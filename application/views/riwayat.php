@@ -30,7 +30,7 @@
 			</div>			
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Konfirmasi</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnHapus">Hapus</a>
 		</div>
 		</div>
 	</div> <!-- endmodalstructure -->
@@ -49,12 +49,8 @@
 						<th>Qty</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>Nasi Goreng</td>
-						<td>Rp 10000</td>
-						<td>1</td>
-					</tr>
+				<tbody id="showDetail">
+					
 				</tbody>
       		</table>        	
 		</div> <!-- End class modal-content -->
@@ -195,6 +191,7 @@
 	</script>
 
 	<script type="text/javascript">
+		var riwayat;
 		//CRUD
   		$(function(){
   			showRiwayat();
@@ -207,7 +204,7 @@
 			     	success : function(data){
 			     		var html = '';
 			     		var i;
-
+			     		riwayat = data;
 			     		for(i=0;i<data.length;i++){
 			     			html += 
 			     				'<tr>'+
@@ -216,20 +213,68 @@
 			            			'<td>'+data[i].feedback+'</td>'+
 			            			'<td>Rp '+data[i].total+'</td>'+
 			            			'<td>'+
-			            				'<button class="waves-effect btn btn-small modal-trigger white teal-text" href="#modaldetailtransksi">Detail</button>'+
-			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text" href="#modalhapusriwayat">Hapus</button>'+
+			            				'<button class="waves-effect btn btn-small modal-trigger white teal-text item-detail" data="'+i+'">Detail</button>'+
+			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text item-hapus" data="'+i+'">Hapus</button>'+
 			            			'</td>'+
 			          			'</tr>';
 			     		}
 			     		$('#showRiwayat').html(html);
-			     		//console.log(data);
 			     	},
 			     	error : function(xhr, status, error){
-			     		alert(xhr.responseText);
+			     		console.log(xhr.responseText);
 			     	}
 
 			    }); 		
   			}
+
+  			$('#showRiwayat').on('click','.item-detail',function(){
+  					var index = $(this).attr('data');
+  					var data = riwayat[index].pesanan;
+  					var html = '';
+  					var i;
+
+  					$('#modaldetailtransksi').modal('open');
+
+  					for(i=0;i<data.length;i++){
+  						html += '<tr>'+
+									'<td>'+data[i].nama_makanan+'</td>'+
+									'<td>Rp '+data[i].harga+'</td>'+
+									'<td>'+data[i].qty+'</td>'+
+								'</tr>';
+  					}
+  					
+  					$("#showDetail").html(html);
+  			});
+
+  			$('#showRiwayat').on('click','.item-hapus',function(){
+  					var index = $(this).attr('data');
+  					var nota = riwayat[index].no_nota;
+
+  					$('#modalhapusriwayat').modal('open');
+
+  					$('#btnHapus').unbind().click(function(){
+  						$.ajax({
+			              type : 'DELETE',
+			              url : '/ci-restserver/index.php/riwayat/'+nota,
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modalhapusriwayat').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("data berhasil dihapus");
+			                  } else {
+			                  	alert("data gagal dihapus");
+			                  }
+			                  showRiwayat();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  					});
+  			
+  			});
   		});
 	</script>
 </body>

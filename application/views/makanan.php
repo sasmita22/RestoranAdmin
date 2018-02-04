@@ -41,7 +41,7 @@
 			</div> <!--//End class of modal-content -->
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="<?= base_url() ?>index.php/Ubahmakanan/" class="modal-action modal-close waves-effect waves-teal btn-flat">Ubah</a>
+				<a class="modal-action modal-close waves-effect waves-teal btn-flat" >Ubah</a>
 			</div> <!--//End class of modal-footer -->
 		</div> <!-- End modal detailmkn structure -->
 
@@ -139,8 +139,8 @@
 			</div> <!-- End of class modal-content -->
 
 			<div class="modal-footer">
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Konfirmasi</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat" data-dismiss="modal">Batal</a>					
+				<a class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnHapus">Hapus</a>
 			</div>
 		</div> <!-- end modal structure -->
 
@@ -458,13 +458,32 @@
 
   			$('#showMakanan').on('click','.item-hapus',function(){
   					var index = $(this).attr('data');
+  					var id = makanan[index].id_makanan;
   					var listbahan = makanan[index].bahan;
-  					console.log(listbahan);
-  					html = '';
 
   					$('#modalhapusmkn').modal('open');
 
-  					
+  					$('#btnHapus').unbind().click(function(){
+  						$.ajax({
+			              type : 'DELETE',
+			              url : '/ci-restserver/index.php/makanan/'+id,
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#pesanModal').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("data berhasil dihapus");
+			                  } else {
+			                  	alert("data gagal dihapus");
+			                  }
+			                  showMakanan();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  					});
   			
   			});
 

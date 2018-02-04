@@ -28,24 +28,20 @@
 
 				<!-- Form Tambah Bahan -->
 				<div class="row">
-					<form class="col s12">
+					<form class="col s12" id="formtambahbahan">
 					    <div class="row">
-					      	<div class="input-field col s6">
-					        	<input id="idbahan" type="text" class="validate">
-					          	<label for="idbahan">ID Bahan</label>
-					        </div>
 					        <div class="input-field col s6">
-					          <input id="namabahan" type="text" class="validate">
-					          <label for="namabahan">Nama Bahan</label>
+					          <input id="namabahan" type="text" class="validate" name="nama_bahan">
+					          <label for="namabahan" >Nama Bahan</label>
 					        </div>
 					    </div>
 					    <div class="row">
 					    	<div class="input-field col s6">
-					          <input id="tglkadaluarsa" type="text" class="datepicker">
+					          <input id="tglkadaluarsa" type="text" class="datepicker" name="tgl_kadaluarsa">
 					          <label for="tglkadaluarsa">Tanggal Kadaluarsa</label>
 					        </div>
 					        <div class="input-field col s6">
-					          <input  id="stokbahan" type="text" class="validate">
+					          <input  id="stokbahan" type="text" class="validate" name="stok">
 					          <label for="stokbahan">Stok Bahan</label>
 					        </div>
 					    </div>
@@ -56,7 +52,7 @@
 
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Simpan</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="simpanTambah">Simpan</a>
 			</div>
 	    </div> <!-- endmodalstructure -->
 
@@ -115,7 +111,7 @@
 			
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Konfirmasi</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnHapus">Hapus</a>
 			</div>
 			</div>
 		</div> <!-- endmodalstructure -->
@@ -198,7 +194,7 @@
 			<br>  
 			<!-- Button tambahkan bahan -->
 			<div class="center">
-				<a class="waves-effect waves-default btn modal-trigger white teal-text" href="#modaltambahbahan">Tambah Bahan</a>
+				<a class="waves-effect waves-default btn modal-trigger white teal-text" id="tambahBahan">Tambah Bahan</a>
 			</div>
 
 
@@ -239,7 +235,7 @@
 
 	<!-- Modals JS Option -->
 	<script type="text/javascript">
-		
+		var bahan;
 	  $('.modal').modal({
 	      dismissible: true, // Modal can be dismissed by clicking outside of the modal
 	      opacity: .5, // Opacity of modal background
@@ -259,12 +255,14 @@
     	  today: false,
     	  clear: 'Bersihkan',
     	  close: 'ok',
-    	  closeOnSelect: false // Close upon selecting a date,
+    	  closeOnSelect: false, // Close upon selecting a date,
+    	  format: 'yyyy-mm-dd' 
   	});
 
 	  //CRUD
   		$(function(){
   			showBahan();
+  			
 
   			function showBahan(){
   				$.ajax({
@@ -274,7 +272,7 @@
 			     	success : function(data){
 			     		var html = '';
 			     		var i;
-
+			     		bahan = data;
 			     		for(i=0;i<data.length;i++){
 			     			html += 
 			     				'<tr>'+
@@ -283,8 +281,8 @@
 			            			'<td>'+data[i].tgl_kadaluarsa+'</td>'+
 			            			'<td>'+data[i].stok+' Gr</td>'+
 			            			'<td>'+
-			            				'<button class="waves-effect waves-teal btn btn-small modal-trigger white teal-text" href="#modalubahbahan">Ubah</button>'+
-			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text" href="#modalhapusbhn">Hapus</button>'+			            	
+			            				'<button class="waves-effect waves-teal btn btn-small modal-trigger white teal-text item-ubah" data="'+i+'">Ubah</button>'+
+			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text item-hapus" data="'+i+'">Hapus</button>'+			            	
 			            			'</td>'+
 			          			'</tr>';
 			     		}
@@ -297,6 +295,100 @@
 
 			    }); 		
   			}
+
+  			$('#showBahan').on('click','.item-hapus',function(){
+  					var index = $(this).attr('data');
+  					var id = bahan[index].id_bahan;
+
+  					$('#modalhapusbhn').modal('open');
+
+  					$('#btnHapus').unbind().click(function(){
+  						$.ajax({
+			              type : 'DELETE',
+			              url : '/ci-restserver/index.php/bahan/'+id,
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modalhapusbhn').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("data berhasil dihapus");
+			                  } else {
+			                  	alert("data gagal dihapus");
+			                  }
+			                  showBahan();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  					});
+  			
+  			});
+
+  			
+
+  			$('#showBahan').on('click','.item-hapus',function(){
+  					var index = $(this).attr('data');
+  					var id = bahan[index].id_bahan;
+
+  					$('#modalhapusbhn').modal('open');
+
+  					$('#btnHapus').unbind().click(function(){
+  						$.ajax({
+			              type : 'DELETE',
+			              url : '/ci-restserver/index.php/bahan/'+id,
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modalhapusbhn').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("data berhasil dihapus");
+			                  } else {
+			                  	alert("data gagal dihapus");
+			                  }
+			                  showBahan();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  					});
+  			
+  			});
+
+  			$('#tambahBahan').click(function(){
+  				$('#modaltambahbahan').modal('open');
+  				
+  				
+  				$('#simpanTambah').unbind().click(function(){
+  					var data = $('#formtambahbahan').serialize();
+
+  						$.ajax({
+			              type : 'ajax',
+			              method : 'post',
+			              data : data,
+			              url : '/ci-restserver/index.php/bahan',
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modaltambahbahan').modal('close');
+
+			                  if (response.status == 'success' ){
+			                  	alert("Bahan berhasil ditambah");
+			                  } else {
+			                  	alert("Bahan gagal ditambah");
+			                  }
+			                  showBahan();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  				});
+  			});
+  			
   		});
 	</script>
 

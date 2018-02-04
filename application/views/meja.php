@@ -66,23 +66,23 @@
 
 			<!-- Form Ubah Meja -->
 			<div class="row">
-				<form class="col s12">
+				<form class="col s12" id="formUbah">
 					<div class="row">
 						<div class="input-field col s12">
-					    	<input id="usermeja" type="text" class="validate">
-					        <label for="usermeja">Username</label>
+					    	<input id="username" type="text" class="validate">
+					        <label for="username">Username</label>
 					    </div>
 					    </div>
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input id="passw" type="text" class="validate">
-					        <label for="passw">Password</label>
+					        <input id="pass" type="text" class="validate">
+					        <label for="pass">Password</label>
 					    </div>
 					</div>
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input id="nomeja" type="text" class="validate">
-					        <label for="nomeja">No Meja</label>
+					        <input id="no_meja" type="text" class="validate">
+					        <label for="no_meja">No Meja</label>
 					    </div>
 					</div>					      
 
@@ -91,7 +91,7 @@
 			</div>
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Simpan</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnUbah">Simpan</a>
 		</div>
 	</div> <!-- endmodalstructure -->
 
@@ -107,7 +107,7 @@
 			</div>			
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Konfirmasi</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnHapus">Hapus</a>
 		</div>
 		</div>
 	</div> <!-- endmodalstructure -->
@@ -190,7 +190,7 @@
 			<br>  
 			<!-- Button tambahkan meja -->
 			<div class="center">
-				<a class="waves-effect waves-default btn modal-trigger white teal-text" href="#modaltambahmeja">Tambah Meja</a>
+				<a class="waves-effect waves-default btn modal-trigger white teal-text" id="btnModalTambah">Tambah Meja</a>
 			</div>
 
 	</div><br><br><br>
@@ -246,6 +246,7 @@
 	</script>
 
 	<script type="text/javascript">
+		var meja;
 		//CRUD
   		$(function(){
   			showMeja();
@@ -258,7 +259,7 @@
 			     	success : function(data){
 			     		var html = '';
 			     		var i;
-
+			     		meja = data;
 			     		for(i=0;i<data.length;i++){
 			     			html += 
 			     				'<tr>'+
@@ -266,8 +267,8 @@
 			            			'<td>'+data[i].username+'</td>'+
 			            			'<td>'+data[i].pass+'</td>'+
 			            			'<td>'+
-			            				'<button class="waves-effect waves-teal btn btn-small modal-trigger white teal-text" href="#modalubahmeja">Ubah</button>'+
-			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text" href="#modalhapusmeja">Hapus</button>'+
+			            				'<button class="waves-effect waves-teal btn btn-small modal-trigger white teal-text item-ubah" data="'+i+'">Ubah</button>'+
+			            				'<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text item-hapus" data="'+i+'">Hapus</button>'+
 			            			'</td>'+
 			          			'</tr>';
 			     		}
@@ -280,7 +281,91 @@
 
 			    }); 		
   			}
+
+  			$('#showMeja').on('click','.item-hapus',function(){
+  				var index = $(this).attr('data');
+  				var no_meja = meja[index].no_meja;
+  				$('#modalhapusmeja').modal('open');
+
+  				$('#btnHapus').unbind().click(function(){
+  					$.ajax({
+			            type : 'DELETE',
+			            url : '/ci-restserver/index.php/akunmeja/'+no_meja,
+			            dataType : 'json',
+			            success : function(response){
+			                $('#modalhapusmeja').modal('close');
+
+			                if (response.status == 'success' ){
+			                	alert("data berhasil dihapus");
+			                } else {
+			                  	alert("data gagal dihapus");
+			                }
+			                showMeja();
+			            },
+			            error : function(xhr,status,error){
+			                console.log(xhr.responseText);
+			            }
+			        });
+
+  				});
+  			
+  			});
+
+  			$('#showMeja').on('click','.item-ubah',function(){
+  				var index = $(this).attr('data');
+  				var no_meja = meja[index].no_meja;
+  				var username = meja[index].username;
+  				var pass = meja[index].pass;
+
+  				
+  				$('#modalubahmeja').modal('open');
+
+  				$('#formUbah #username').val(username);
+  				$('#formUbah #pass').val(pass);
+  				$('#formUbah #no_meja').val(no_meja);
+
+
+  				$('#btnUbah').unbind().click(function(){
+  					var data = {
+  						"username" : $('#formUbah #username').val(),
+  						"pass" : $('#formUbah #pass').val(),
+  						"no_meja" : $('#formUbah #no_meja').val()
+  					}
+  					$.ajax({
+			            type : 'PUT',
+			            data : data,
+			            url : '/ci-restserver/index.php/akunmeja',
+			            dataType : 'json',
+			            success : function(response){
+			                $('#modalubahmeja').modal('close');
+
+			                if (response.status == 'success' ){
+			                	alert("data berhasil diedit");
+			                } else {
+			                  	alert("data gagal diedit");
+			                }
+			                showMeja();
+			            },
+			            error : function(xhr,status,error){
+			                console.log(xhr.responseText);
+			            }
+			        });
+
+  				});
+  			
+  			});
+
+
+  			$('#btnModalTambah').click(function(){
+  				$('#modaltambahmeja').modal('open');	
+
+
+  			});
+
+  			
   		});
+
+  		
 	</script>
 
 </body>
