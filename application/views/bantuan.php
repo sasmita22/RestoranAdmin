@@ -1,3 +1,13 @@
+<?php 
+	if(isset($_SESSION['username'])and isset($_SESSION['status'])){
+		if(!($_SESSION['username'] =='admin') || !($_SESSION['status'] == 'logged')){
+		 	redirect(base_url('index.php/login'));
+		}
+	}else{
+		redirect(base_url('index.php/login'));
+	}
+
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +48,7 @@
 					 <ul id="dropdown1" class="dropdown-content right">
 					 	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Bantuan/" style="color: black;">Bantuan</a></li>
 					 	<li class="divider"></li>
-					  	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Login/" style="color: black;">Keluar</a></li>
+					  	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Login/logout" style="color: black;">Keluar</a></li>
 					 </ul>
 			   	</ul>
 
@@ -62,7 +72,7 @@
     	<li><div class="divider"></div></li>
 
     	<li class="active"><a class="waves-effect" href="<?= base_url() ?>index.php/Bantuan/"><i class="material-icons">help</i>Bantuan</a></li>
-    	<li><a class="waves-effect" href="<?= base_url() ?>index.php/Login/"><i class="material-icons">exit_to_app</i>Keluar</a></li>
+    	<li><a class="waves-effect" href="<?= base_url() ?>index.php/Login/logout"><i class="material-icons">exit_to_app</i>Keluar</a></li>
     	<li><div class="divider"></div></li>
   	</ul>
 

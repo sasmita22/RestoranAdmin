@@ -1,3 +1,14 @@
+<?php 
+	if(isset($_SESSION['username'])and isset($_SESSION['status'])){
+		if(!($_SESSION['username'] =='admin') || !($_SESSION['status'] == 'logged')){
+		 	redirect(base_url('index.php/login'));
+		}
+	}else{
+		redirect(base_url('index.php/login'));
+	}
+
+ ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,6 +79,12 @@
 			<div class="row">
 				<form class="col s12" id="formUbah">
 					<div class="row">
+					    <div class="input-field col s12">
+					        <input disabled id="no_meja" type="text" class="validate">
+					        <label for="no_meja">No Meja</label>
+					    </div>
+					</div>
+					<div class="row">
 						<div class="input-field col s12">
 					    	<input id="username" type="text" class="validate">
 					        <label for="username">Username</label>
@@ -75,14 +92,8 @@
 					    </div>
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input id="pass" type="text" class="validate">
+					        <input id="pass" type="password" class="validate">
 					        <label for="pass">Password</label>
-					    </div>
-					</div>
-					<div class="row">
-					    <div class="input-field col s12">
-					        <input id="no_meja" type="text" class="validate">
-					        <label for="no_meja">No Meja</label>
 					    </div>
 					</div>					      
 
@@ -131,7 +142,7 @@
 					 <ul id="dropdown1" class="dropdown-content right">
 					 	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Bantuan/" style="color: black;">Bantuan</a></li>
 					 	<li class="divider"></li>
-					  	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Login/" style="color: black;">Keluar</a></li>
+					  	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Login/logout" style="color: black;">Keluar</a></li>
 					 </ul>
 			   	</ul>
 
@@ -155,7 +166,7 @@
     	<li><div class="divider"></div></li>
 
     	<li><a class="waves-effect" href="<?= base_url() ?>index.php/Bantuan/"><i class="material-icons">help</i>Bantuan</a></li>
-    	<li><a class="waves-effect" href="<?= base_url() ?>index.php/Login/"><i class="material-icons">exit_to_app</i>Keluar</a></li>
+    	<li><a class="waves-effect" href="<?= base_url() ?>index.php/Login/logout"><i class="material-icons">exit_to_app</i>Keluar</a></li>
   	</ul>
 
 	<!-- Main content -->
