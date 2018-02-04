@@ -4,11 +4,14 @@
 	<title>RestoranAdmin Login</title>
 	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/materialize.min.css">
 	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/login.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body class="login-page">
 	<div class="container login-page">
 			<div class="wrap-login col s7">
-				<h2 style="margin-bottom: 50px;color: black;text-align: center;font-size: 30px;">Login Warung Broto</h2>
+        <h2 style="color: black;text-align: center;font-size: 30px;"><i class="medium material-icons">restaurant_menu</i></h2>
+				<h2 style="margin-bottom: 50px;color: black;text-align: center;font-size: 30px;">Warung Broto</h2>
 				<!-- <div class="alert alert-danger" style="display: none; "> 
 				</div> -->
 				<form method="post" action="#">
@@ -23,11 +26,6 @@
               <label for="password">Password</label>
   					</div>
           </div>  
-					<div class="register row">
-						<label>
-							<a href="<?= base_url() ?>/index.php/Register" style="color: #4db6ac">Sign up</a> 
-						</label>	
-					</div>
 					<button type="button" class="btn-login btn  waves-effect btn-info" id="btnLogin" style="width: 100%; margin-bottom: 30px;margin-top: 30px;">Login</button>
 				</form>
 			</div>

@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Menu Utama Kasir</title>
+	<title>Pembayaran</title>
 	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/styleku.css">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	<style>
 		tbody {
 			display:block;
@@ -23,42 +27,61 @@
 	</style>
 </head>
 <body>
-	<ul id="dropdown1" class="dropdown-content ">
-	  <li ><a href="#!" >Logout</a></li>
-	</ul>
-	 <nav class="white">
-	    <div class="nav-wrapper">
-	    	<ul>
-	    		<li><a href="#" class="brand-logo" style="color: #4db6ac; margin-left: 30px; font-size: 25px;">WarungBroto</a></li>
-	    	</ul>    	
-	    	
-	      	
-	      	<ul class="right hide-on-med-and-down">
-		      	<!-- Dropdown Trigger -->
-		      	<li><a href="#!" class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"><i class="material-icons" style="color: #4db6ac;">more_vert</i></a></li>
-		   	</ul>
-	    </div>
-	  </nav>
 
-	  <div class="row" style="margin-top: 2vh;">
-	  	<div class="col s3" ">
-	  		<div class="card" style="margin-left: 40px;">
-	  			<div style="padding:5px;padding-left: 20px;">
-	  				<p>No. Nota : <span id="txtNota"></span></p>
-	  				<p>Tanggal : <span id="txtTanggal"></span></p>
-	  				<p>No. Meja : <span id="txtMeja"></span></p>
+	<!-- Navbar -->
+	<div class="navbar-fixed">
+		<nav class="white">
+		    <div class="nav-wrapper">
+
+		 		<span style="">
+		        	<a href="<?= base_url() ?>index.php/kasir/" class="button-collapse show-on-large" style="color: #616161; margin-left: 30px;"><i class="material-icons">dashboard</i>
+             		</a>
+             		<a href="<?= base_url() ?>index.php/kasir/" class="button-collapse show-on-large" style="margin-left: 0px; font-weight: 500; font-size: 20px; color: #00897b;">KASIR warungbroto
+             		</a>
+             	</span>
+	      	
+		      	<ul class="right hide-on-med-and-down" style="margin-right: 11px;">
+			      	<!-- Dropdown Trigger -->
+			      	<li><a href="#!" class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"><i class="material-icons" style="color: #616161;">more_vert</i></a></li>
+
+					<!-- Dropdown Content -->
+					 <ul id="dropdown1" class="dropdown-content right">
+					 	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Bantuan/" style="color: black;">Bantuan</a></li>
+					 	<li class="divider"></li>
+					  	<li> <a class="waves-effect" href="<?= base_url() ?>index.php/Login/" style="color: black;">Keluar</a></li>
+					 </ul>
+			   	</ul>
+
+		    </div>
+		</nav>
+	</div>
+
+	<!-- Main Content -->
+	<div class="container teal darken-1" style="top: 0; margin-bottom: 50px;"><br>
+		<h4 style="text-align: center; color: white;"><i class="large material-icons">shopping_cart</i></h4>
+	  	<h4 style="text-align: center; color: white;">PEMBAYARAN</h4><br>
+	</div>
+
+	<div class="container">
+		<div class="card-panel">
+	  	<div class="row" style="margin-top: 40px;">
+	  		<div class="row" style="margin-top: 2vh;">
+	  			<div class="col s3 offset-s1">
+	  				<div class="card" style="m">
+	  				<div style="padding:5px;padding-left: 20px;">
+	  					<p><b>No. Nota</b>  &nbsp;:&nbsp; <span id="txtNota"></span></p>
+	  					<p><b>Tanggal</b>&nbsp;&nbsp;&nbsp;:&nbsp; <span id="txtTanggal"></span></p>
+	  					<p><b>No. Meja</b> :&nbsp; <span id="txtMeja"></span></p>
+	  				</div>
+	  				</div>
 	  			</div>
-	  			
-	  		</div>
-	  	</div>
-	  	<div class="col s4 offset-s1" style="margin-top: 5vh;">
-	  		<h4 style="text-align: center;">Pembayaran Kasir</h4>
-	  </div>	
-	  </div>
-	  
-	  <div class="row" style="margin-top: 2vh;">
-	  	<div>
-		  	<table class="col s8 offset-s2 centered bordered">
+	  		<div class="col s4 offset-s1" style="margin-top: 5vh;">
+	  	</div>	
+		</div>
+	
+	<div class="row" style="margin-top: 10vh;">
+	  	<div class="col s12">
+		  	<table class="col s10 offset-s1 centered bordered striped">
 		        <thead>
 		          <tr>
 		              <th>Kode Item</th>
@@ -80,6 +103,19 @@
 	  			<button id="btnBayar" class="btn waves-effect col s12">Bayar</button>
 	  		</div>
 	  </div>
+	</div>
+</div>
+</div>
+
+	<br><br><br>
+	<!-- Footer -->
+	<footer class="footer teal darken-1" style="margin-top: 15px;">
+			<div class="divider"></div>
+          	<div class="center white-text text-darken-2">
+	            <span style="line-height: 40px;">© 2018 Warung Broto - All Rights Reserved.</span>
+            </div>
+    </footer>
+	</div>
 	  
 	  <script type="text/javascript" src="<?= base_url() ?>assets/js/js.cookie.js "></script>
 	  <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.1.1.min.js "></script>
@@ -132,10 +168,7 @@
 				        alert('success');
 				    }
 				});
-
-				window.location.replace("<?= base_url() ?>/index.php/kasir/cetak");
-				
-
+ 	 			//window.location.replace("<?= base_url()  ?>/index.php/kasir/cetak");
  	 		});
 
 
