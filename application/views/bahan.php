@@ -330,7 +330,7 @@
 			                  showBahan();
 			              },
 			              error : function(xhr,status,error){
-			                alert(xhr.responseText);
+			                alert('Hapus gagal, Periksa Keterikatan dengan makanan');
 			              }
 			            });
 

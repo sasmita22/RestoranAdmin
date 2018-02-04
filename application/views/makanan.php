@@ -489,7 +489,7 @@
 			                  showMakanan();
 			              },
 			              error : function(xhr,status,error){
-			                alert(xhr.responseText);
+			                alert('Hapus gagal, makanan memiliki keterikatan dengan yang lain');
 			              }
 			            });
 

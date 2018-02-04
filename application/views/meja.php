@@ -377,7 +377,6 @@
   						"pass" : $('#formtambahmeja #pass').val(),
   						"no_meja" : $('#formtambahmeja #no_meja').val()
   					}
-  					alert(data);
   						$.ajax({
 			              type : 'ajax',
 			              method : 'post',
