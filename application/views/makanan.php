@@ -64,7 +64,7 @@
 				<br>
 				 <!-- Form Ubah Makanan -->
 				<div class="row">
-					<form action="#" class="col s12">
+					<form class="col s12" id="formUbah">
 					     
 					    <!-- Input ID Makanan dan Nama Makanan -->
 					    <div class="row">
@@ -93,13 +93,10 @@
 					    <!-- Input Harga Beli dan Harga Jual -->
 					    <div class="row">
 					        <div class="input-field col s5">
-					          	<input id="hrgbeli" type="text" class="validate">
-					          	<label for="hrgbeli">Harga Beli</label>
+					          	<input id="harga" type="text" class="validate">
+					          	<label for="harga">Harga</label>
 					        </div>
-					        <div class="input-field col s5 offset-s2">
-					          	<input id="hrgjual" type="text" class="validate">
-					          	<label for="hrgjual">Harga Jual</label>
-					        </div>
+					        
 					    </div>
 
 						<!-- Input Deskripsi -->
@@ -129,7 +126,7 @@
 
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="<?= base_url() ?>index.php/Ubahmakanan/" class="modal-action modal-close waves-effect waves-teal btn-flat">Ubah</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnUbah">Ubah</a>
 			</div>
 		</div> <!-- End modal structure -->
 
@@ -478,6 +475,61 @@
 			            });
 
   					});
+  			
+  			});
+
+  			$('#showMakanan').on('click','.item-ubah',function(){
+  				var index = $(this).attr('data');
+  				var id_makanan = makanan[index].id_makanan;
+  				var nama = makanan[index].nama;
+  				var jenis = makanan[index].jenis;
+  				var tag = makanan[index].tag;
+  				var harga = makanan[index].harga;
+  				var deskripsi = makanan[index].deskripsi;
+
+
+  				
+  				$('#modalubahmkn').modal('open');
+
+  				$('#formUbah #idmkn').val(id_makanan);
+  				$('#formUbah #namamkn').val(nama);
+  				$('#formUbah #jenismkn').val(jenis);
+  				$('#formUbah #tag').val(tag);
+  				$('#formUbah #harga').val(harga);
+  				$('#formUbah #deskripsi').val(deskripsi);
+  				
+
+  				$('#btnUbah').unbind().click(function(){
+  					var data = {
+  						"id_makanan" : $('#formUbah #idmkn').val(),
+  						"nama" : $('#formUbah #namamkn').val(),
+  						"jenis" : $('#formUbah #jenismkn').val(),
+  						"tag" : $('#formUbah #tag').val(),
+  						"deskripsi" : $('#formUbah #deskripsi').val(),
+  						"harga" : $('#formUbah #harga').val()		
+  					}
+  					console.log(data);
+  					$.ajax({
+			            type : 'PUT',
+			            data : data,
+			            url : '/ci-restserver/index.php/makanan',
+			            dataType : 'json',
+			            success : function(response){
+			                $('#modalubahmkn').modal('close');
+
+			                if (response.status == 'success' ){
+			                	alert("data berhasil diedit");
+			                } else {
+			                  	alert("data gagal diedit");
+			                }
+			                showMakanan();
+			            },
+			            error : function(xhr,status,error){
+			                console.log(xhr.responseText);
+			            }
+			        });
+
+  				});
   			
   			});
 
