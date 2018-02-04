@@ -28,23 +28,23 @@
 
 			<!-- Form Tambah Meja -->
 			<div class="row">
-				<form class="col s12">
+				<form class="col s12" id="formtambahmeja">
 					<div class="row">
 						<div class="input-field col s12">
-					        <input placeholder="Maks. 3 karakter" id="usermeja" type="text" class="validate">
-					        <label for="usermeja">Username</label>
+					        <input placeholder="Maks. 3 karakter" id="username" type="text" class="validate">
+					        <label for="username">Username</label>
 					    </div>
 					</div>
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input placeholder="Maks. 2 karakter" id="passw" type="text" class="validate">
-					        <label for="passw">Password</label>
+					        <input placeholder="Maks. 2 karakter" id="pass" type="text" class="validate">
+					        <label for="pass">Password</label>
 					    </div>
 					</div>
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input placeholder="Maks. 2 karakter" id="nomeja" type="text" class="validate">
-					        <label for="nomeja">No Meja</label>
+					        <input placeholder="Maks. 2 karakter" id="no_meja" type="text" class="validate">
+					        <label for="no_meja">No Meja</label>
 					    </div>
 					</div>					      
 				</form>
@@ -53,7 +53,7 @@
 		
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Simpan</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="simpanTambah">Simpan</a>
 		</div>
 	</div> <!-- endmodalstructure -->
 
@@ -331,6 +331,7 @@
   						"pass" : $('#formUbah #pass').val(),
   						"no_meja" : $('#formUbah #no_meja').val()
   					}
+  					alert(data);
   					$.ajax({
 			            type : 'PUT',
 			            data : data,
@@ -359,7 +360,35 @@
   			$('#btnModalTambah').click(function(){
   				$('#modaltambahmeja').modal('open');	
 
+  				$('#simpanTambah').unbind().click(function(){
+  					var data = {
+  						"username" : $('#formtambahmeja #username').val(),
+  						"pass" : $('#formtambahmeja #pass').val(),
+  						"no_meja" : $('#formtambahmeja #no_meja').val()
+  					}
+  					alert(data);
+  						$.ajax({
+			              type : 'ajax',
+			              method : 'post',
+			              data : data,
+			              url : '/ci-restserver/index.php/akunmeja',
+			              dataType : 'json',
+			              success : function(response){
+			                  $('#modaltambahmeja').modal('close');
 
+			                  if (response.status == 'success' ){
+			                  	alert("Meja berhasil ditambah");
+			                  } else {
+			                  	alert("Meja gagal ditambah");
+			                  }
+			                  showMeja();
+			              },
+			              error : function(xhr,status,error){
+			                alert(xhr.responseText);
+			              }
+			            });
+
+  				});
   			});
 
   			

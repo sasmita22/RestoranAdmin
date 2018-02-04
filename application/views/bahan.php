@@ -64,7 +64,7 @@
 				<br><br><br>
 				<!-- Form Ubah Bahan -->
 				<div class="row">
-					<form class="col s12">
+					<form class="col s12" id="formUbah">
 					    <div class="row">
 					       	<div class="input-field col s6">
 					          <input id="idbahan" type="text" class="validate">
@@ -91,7 +91,7 @@
 				</div> <!-- End class modal-content -->
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat">Simpan</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat" id="btnUbah">Simpan</a>
 			</div>
 	    </div> <!-- endmodalstructure -->
 
@@ -249,6 +249,7 @@
 
 	<!-- Datepicker JS -->
 	<script type="text/javascript">
+		
 	  $('.datepicker').pickadate({
     	  selectMonths: true, // Creates a dropdown to control month
     	  selectYears: 2, // Creates a dropdown of 15 years to control year,
@@ -260,6 +261,7 @@
   	});
 
 	  //CRUD
+	  	var bahan;
   		$(function(){
   			showBahan();
   			
@@ -328,33 +330,50 @@
 
   			
 
-  			$('#showBahan').on('click','.item-hapus',function(){
-  					var index = $(this).attr('data');
-  					var id = bahan[index].id_bahan;
+  			$('#showBahan').on('click','.item-ubah',function(){
+  				var index = $(this).attr('data');
+  				var namabahan = bahan[index].nama_bahan;
+  				var idbahan = bahan[index].id_bahan;
+  				var tglkadaluarsa = bahan[index].tgl_kadaluarsa;
+  				var stokbahan = bahan[index].stok;
 
-  					$('#modalhapusbhn').modal('open');
+  				
+  				$('#modalubahbahan').modal('open');
 
-  					$('#btnHapus').unbind().click(function(){
-  						$.ajax({
-			              type : 'DELETE',
-			              url : '/ci-restserver/index.php/bahan/'+id,
-			              dataType : 'json',
-			              success : function(response){
-			                  $('#modalhapusbhn').modal('close');
+  				$('#formUbah #namabahan').val(namabahan);
+  				$('#formUbah #idbahan').val(idbahan);
+  				$('#formUbah #tglkadaluarsa').val(tglkadaluarsa);
+  				$('#formUbah #stokbahan').val(stokbahan);
 
-			                  if (response.status == 'success' ){
-			                  	alert("data berhasil dihapus");
-			                  } else {
-			                  	alert("data gagal dihapus");
-			                  }
-			                  showBahan();
-			              },
-			              error : function(xhr,status,error){
-			                alert(xhr.responseText);
-			              }
-			            });
 
-  					});
+  				$('#btnUbah').unbind().click(function(){
+  					var data = {
+  						"id_bahan" : $('#formUbah #idbahan').val(),
+  						"nama_bahan" : $('#formUbah #namabahan').val(),
+  						"tgl_kadaluarsa" : $('#formUbah #tglkadaluarsa').val(),
+  						"stok" : $('#formUbah #stokbahan').val()	
+  					}
+  					$.ajax({
+			            type : 'PUT',
+			            data : data,
+			            url : '/ci-restserver/index.php/bahan',
+			            dataType : 'json',
+			            success : function(response){
+			                $('#modalubahbahan').modal('close');
+
+			                if (response.status == 'success' ){
+			                	alert("data berhasil diedit");
+			                } else {
+			                  	alert("data gagal diedit");
+			                }
+			                showBahan();
+			            },
+			            error : function(xhr,status,error){
+			                console.log(xhr.responseText);
+			            }
+			        });
+
+  				});
   			
   			});
 
