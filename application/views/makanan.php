@@ -479,6 +479,7 @@
   			
   			});
 
+<<<<<<< HEAD
   			$('#showMakanan').on('click','.item-ubah',function(){
   				var index = $(this).attr('data');
   				var id_makanan = makanan[index].id_makanan;
@@ -551,6 +552,64 @@
  	 				}
  	 		});
 
+||||||| merged common ancestors
+=======
+  			$('#showMakanan').on('click','.item-ubah',function(){
+  				var index = $(this).attr('data');
+  				var id_makanan = makanan[index].id_makanan;
+  				var nama = makanan[index].nama;
+  				var jenis = makanan[index].jenis;
+  				var tag = makanan[index].tag;
+  				var harga = makanan[index].harga;
+  				var deskripsi = makanan[index].deskripsi;
+
+
+  				
+  				$('#modalubahmkn').modal('open');
+
+  				$('#formUbah #idmkn').val(id_makanan);
+  				$('#formUbah #namamkn').val(nama);
+  				$('#formUbah #jenismkn').val(jenis);
+  				$('#formUbah #tag').val(tag);
+  				$('#formUbah #harga').val(harga);
+  				$('#formUbah #deskripsi').val(deskripsi);
+  				
+
+  				$('#btnUbah').unbind().click(function(){
+  					var data = {
+  						"id_makanan" : $('#formUbah #idmkn').val(),
+  						"nama" : $('#formUbah #namamkn').val(),
+  						"jenis" : $('#formUbah #jenismkn').val(),
+  						"tag" : $('#formUbah #tag').val(),
+  						"deskripsi" : $('#formUbah #deskripsi').val(),
+  						"harga" : $('#formUbah #harga').val()		
+  					}
+  					console.log(data);
+  					$.ajax({
+			            type : 'PUT',
+			            data : data,
+			            url : '/ci-restserver/index.php/makanan',
+			            dataType : 'json',
+			            success : function(response){
+			                $('#modalubahmkn').modal('close');
+
+			                if (response.status == 'success' ){
+			                	alert("data berhasil diedit");
+			                } else {
+			                  	alert("data gagal diedit");
+			                }
+			                showMakanan();
+			            },
+			            error : function(xhr,status,error){
+			                console.log(xhr.responseText);
+			            }
+			        });
+
+  				});
+  			
+  			});
+
+>>>>>>> d77e045812bd6d6b59dba7377f6f3f9103ad1502
   			$('#btnModalTambah').click(function(){
   				$('#modaltambahmkn').modal('open');	
 
