@@ -51,7 +51,7 @@
 			</div> <!--//End class of modal-content -->
 			<div class="modal-footer">
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Batal</a>					
-				<a class="modal-action modal-close waves-effect waves-teal btn-flat" >Ubah</a>
+				<a href="<?= base_url() ?>index.php/Ubahmakanan"class="modal-action modal-close waves-effect waves-teal btn-flat" id="ubahbahan">Ubah</a>
 			</div> <!--//End class of modal-footer -->
 		</div> <!-- End modal detailmkn structure -->
 
@@ -333,6 +333,7 @@
 	<!-- Javascript -->
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.1.1.min.js "></script>
  	<script type="text/javascript" src="<?= base_url() ?>assets/js/materialize.min.js"></script>
+ 	<script type="text/javascript" src="<?= base_url() ?>assets/js/js.cookie.js "></script>
  	
  	<script type="text/javascript">
 
@@ -532,6 +533,23 @@
   				});
   			
   			});
+
+  			$('#showMeja').on('click','.ubahbahan',function(){
+ 	 				var index = $(this).attr('data');
+ 	 				//alert(datameja[index].total);
+
+ 	 				if(datameja[index].status == 1){
+ 	 					if(datameja[index].total > 0){
+ 	 						string_data = JSON.stringify(datameja[index]);
+							Cookies.set('datameja',string_data);
+							window.location.replace("<?= base_url() ?>/index.php/kasir/kasir_page"); 	 					
+						}else{
+ 	 						alert('belum pesan makanan');
+ 	 					}
+ 	 				}else{
+ 	 					alert('error');
+ 	 				}
+ 	 		});
 
   			$('#btnModalTambah').click(function(){
   				$('#modaltambahmkn').modal('open');	

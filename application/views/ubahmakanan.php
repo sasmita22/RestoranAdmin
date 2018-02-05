@@ -42,7 +42,7 @@
 					<!-- Input ID Bahan -->
 					<div class="row">
 					    <div class="input-field col s12">
-					        <input id="idbahan" type="text" class="validate">
+					        <input disabled id="idbahan" type="text" class="validate">
 					        <label for="idbahan">ID Bahan</label>
 					    </div>
 					</div>
@@ -50,7 +50,7 @@
 					<!-- Input Nama Bahan-->
 					<div class="row">
 					    <div class="input-field col s12">
-					   		<input id="namabhn" type="text" class="validate">
+					   		<input disabled id="namabhn" type="text" class="validate">
 					        <label for="namabhn">Nama Bahan</label>
 					    </div>
 					</div>
@@ -176,7 +176,7 @@
 			              <th>ID Bahan</th>
 			              <th>Nama Bahan</th>
 			              <th>Qty</th>
-			              <th style="text-align: center; width: 140px;">Aksi</th>
+			              <th style="text-align: center; width: 80px;">Aksi</th>
 			          </tr>
 			        </thead>
 
@@ -187,7 +187,7 @@
 			            <td>Indonesian</td>
 			            <td>
 			            	<!-- Button Trigger Modal -->
-			            	<button class="waves-effect waves-teal btn btn-small modal-trigger white teal-text" href="#modalubahbahanmkn">Ubah</button>         	
+			            	        	
 			            	<button class="waves-effect waves-red btn btn-small modal-trigger white teal-text" href="#modalhapusbahanmkn">Hapus</button>
 			            </td>
 			          </tr>
